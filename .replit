@@ -1,6 +1,6 @@
 run = ["sh", "-c", "npm start"]
 hidden = [".git", ".env", "node_modules", "dist", "qa-shots", "screenshots", "output"]
-modules = ["nodejs-20", "web", "bash"]
+modules = ["web", "bash", "nodejs-24"]
 
 [deployment]
 build = ["sh", "-c", "PUPPETEER_SKIP_DOWNLOAD=true npm ci && npm run build"]
@@ -8,4 +8,47 @@ run = ["sh", "-c", "npm start"]
 
 [nix]
 channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=5000 npm start"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+
+[[ports]]
+localPort = 24678
+externalPort = 3001
+
+[userenv]
+
+[userenv.shared]
+GEV_RATELIMIT_GOOGLE_PER_MIN = "10"
+GEV_RATELIMIT_OPENAI_PER_MIN = "10"
+OPENSKY_AUTH_MODE = "anon"
 

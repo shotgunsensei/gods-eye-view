@@ -1,0 +1,1 @@
+- [Dependency installation on Replit](dependency-installation.md) — preserve semver ranges when installing imported Node projects to avoid unintended lockfile downgrades.
