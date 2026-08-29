@@ -1,7 +1,11 @@
 run = ["sh", "-c", "npm start"]
 hidden = [".git", ".env", "node_modules", "dist", "qa-shots", "screenshots", "output"]
+modules = ["nodejs-20", "web", "bash"]
 
 [deployment]
 build = ["sh", "-c", "PUPPETEER_SKIP_DOWNLOAD=true npm ci && npm run build"]
 run = ["sh", "-c", "npm start"]
+
+[nix]
+channel = "stable-25_05"
 
