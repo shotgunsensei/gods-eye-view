@@ -61,6 +61,7 @@ import {
   validTerrainResult,
 } from './src/data/terrainHeightsProxy.js';
 import { VOICE_MODELS, isKnownVoiceTier, resolveVoiceModel } from './src/voice/voiceCost.js';
+import { passwordProtectionPlugin } from './server/authGate.js';
 
 /** Resolve __dirname for ESM context. */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -7340,6 +7341,8 @@ export default defineConfig(({ mode }) => {
   const env = { ...process.env };
   return {
     plugins: [
+      // Must run first: it protects the UI, source modules, and every API proxy.
+      passwordProtectionPlugin(),
       cesium(),
       openSkyProxy(),
       celestrakProxy(),
@@ -7364,6 +7367,18 @@ export default defineConfig(({ mode }) => {
     server: {
       host: env.HOST || 'localhost',
       port: parseInt(env.PORT, 10) || 5173,
+      // QA browsers create locked cache databases on Windows. These folders
+      // are generated output (and already gitignored), so Vite must not watch
+      // them or a locked browser profile can terminate the personal server.
+      watch: {
+        ignored: [
+          '**/qa-shots/**',
+          '**/screenshots/**',
+          '**/output/**',
+          '**/.gev-cache/**',
+          '**/.gev-logs/**',
+        ],
+      },
       // When binding to all interfaces, allow any host; otherwise restrict to local names
       allowedHosts: (env.HOST === '0.0.0.0' || env.HOST === '::')
         ? true

@@ -94,6 +94,9 @@ npm run dev -- --host localhost --port 4173
 
 **That one key is the whole entry fee.** Everything in this README is color-coded — 🟢 needs nothing · 🟡 free key · 🔴 metered — and Google Maps is the only 🔴 you need: it buys the photorealistic planet, and most of the globe lights up 🟢 from there. For typical solo exploring, expect **$0 on most layers** and pocket change on the metered two: Google currently gives **1,000 free 3D-tile sessions a month** — each good for up to three hours of rendering, which is very hard for one person to exhaust — and voice carries a built-in $5 session cap. Full map in [Keys & Costs](#-api-keys), full honest breakdown in [What it actually costs](#-what-it-actually-costs).
 
+> [!NOTE]
+> **Personal Replit + Android setup:** this fork includes a server-side password wall using `GEV_AUTH_USERNAME` and `GEV_AUTH_PASSWORD` Secrets, plus an installable Android PWA. Follow [Private Replit website and Android app](docs/REPLIT_AND_ANDROID.md). Replit runs stay locked when those Secrets are missing.
+
 The dev server binds to **localhost** — your keys stay on your machine. Sharing on a LAN safely is covered in [Sharing an instance](#-sharing-an-instance) and [SECURITY.md](SECURITY.md).
 
 **macOS shortcut:** `./scripts/dev-fresh.sh` clears the Vite cache and pulls your keys straight from the Keychain.

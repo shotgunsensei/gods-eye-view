@@ -1881,6 +1881,14 @@ body.ui-clean-view #scene-runtime.active {
   transform: translateX(-50%);
 }
 
+#top-center-actions form {
+  display: contents;
+}
+
+#top-center-actions form[hidden] {
+  display: none;
+}
+
 #top-center-actions button {
   display: flex;
   align-items: center;
@@ -1914,6 +1922,15 @@ body.ui-clean-view #scene-runtime.active {
   cursor: wait;
   opacity: 0.55;
   transform: none;
+}
+
+#top-center-actions #install-app-btn {
+  color: var(--accent);
+  border-color: var(--glass-border-hover);
+}
+
+#top-center-actions #sign-out-btn {
+  color: #ff9aa6;
 }
 
 #top-center-actions .material-symbols-outlined {
@@ -6759,6 +6776,10 @@ body.scene-playback-mode :is(#clear-selected-layers, #reset-globe-view) {
 
 /* ── Responsive ───────────────────────────────── */
 @media (max-width: 720px) {
+  #top-center-actions {
+    top: 94px;
+  }
+
   #pp-toggles {
     --pp-expanded-width: 176px;
     position: relative;

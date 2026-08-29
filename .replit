@@ -1,0 +1,7 @@
+run = ["sh", "-c", "npm start"]
+hidden = [".git", ".env", "node_modules", "dist", "qa-shots", "screenshots", "output"]
+
+[deployment]
+build = ["sh", "-c", "PUPPETEER_SKIP_DOWNLOAD=true npm ci && npm run build"]
+run = ["sh", "-c", "npm start"]
+

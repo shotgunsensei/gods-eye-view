@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050a0f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="God's Eye" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
   <title>God's Eye View</title>
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,6 +54,14 @@
     <button id="reset-globe-view" type="button" aria-label="Reset to full globe view" title="Reset camera and return to full globe view">
       <span class="material-symbols-outlined" aria-hidden="true">public</span>
     </button>
+    <button id="install-app-btn" type="button" aria-label="Install God's Eye View on this device" title="Install app" hidden>
+      <span class="material-symbols-outlined" aria-hidden="true">install_mobile</span>
+    </button>
+    <form id="sign-out-form" method="post" action="/auth/logout" hidden>
+      <button id="sign-out-btn" type="submit" aria-label="Sign out of God's Eye View" title="Sign out">
+        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+      </button>
+    </form>
   </nav>
   <div id="global-loading-status" role="status" aria-live="polite" aria-atomic="true" hidden>
     <span id="global-loading-label">LOADING LIVE DATA</span>

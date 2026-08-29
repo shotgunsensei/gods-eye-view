@@ -32,8 +32,10 @@ import {
 } from './renderGovernor.js';
 import { installScopeMask } from './scopeMask.js';
 import { initFirstRunExperience } from './firstRunExperience.js';
+import { initPwaInstall } from './pwaInstall.js';
 
 initLogoGaze();
+initPwaInstall();
 
 /**
  * Extract a human-readable error message from any thrown value.
