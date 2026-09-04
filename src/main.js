@@ -81,15 +81,16 @@ async function init() {
       Cesium.Ion.defaultAccessToken = cesiumToken;
     }
 
-    // Set Google Maps API key for 3D Tiles
-    const googleApiKey = import.meta.env.GOOGLE_MAPS_API_KEY;
-    if (!googleApiKey) {
-      throw new Error('GOOGLE_MAPS_API_KEY not found. Set it as an environment variable.');
+    // Google 3D is optional. The OpenStreetMap globe must remain usable in a
+    // keyless local checkout and if Google is temporarily unavailable.
+    const googleApiKey = String(import.meta.env.GOOGLE_MAPS_API_KEY || '').trim();
+    if (googleApiKey) {
+      Cesium.GoogleMaps.defaultApiKey = googleApiKey;
+      // Expose the browser key for the optional Google geocoding helpers.
+      window.__GOOGLE_MAPS_API_KEY__ = googleApiKey;
+    } else {
+      console.warn('[Init] GOOGLE_MAPS_API_KEY not configured; starting with the OpenStreetMap globe.');
     }
-    Cesium.GoogleMaps.defaultApiKey = googleApiKey;
-
-    // Expose API key globally for geocoding in locations.js
-    window.__GOOGLE_MAPS_API_KEY__ = googleApiKey;
 
     // Create the Cesium viewer with minimal chrome
     const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -157,7 +158,7 @@ async function init() {
 
     loaderStatus.textContent = 'Loading Google 3D Tiles...';
     let tileset = null;
-    try {
+    if (googleApiKey) try {
       // Load Google Photorealistic 3D Tiles
       tileset = await Cesium.createGooglePhotorealistic3DTileset({
         onlyUsingWithGoogleGeocoder: true,
@@ -171,6 +172,9 @@ async function init() {
       const tileErrorDetail = describeError(tileError);
       loaderStatus.textContent = `Google 3D Tiles unavailable (${tileErrorDetail}). Continuing in fallback mode...`;
       // Keep Cesium globe visible as fallback instead of aborting the app.
+      viewer.scene.globe.show = true;
+    } else {
+      loaderStatus.textContent = 'Starting OpenStreetMap globe...';
       viewer.scene.globe.show = true;
     }
 

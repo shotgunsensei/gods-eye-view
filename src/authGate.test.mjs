@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  createAuthGate,
   createSignedSession,
   isSecureRequest,
   normalizeReturnPath,
@@ -68,4 +69,20 @@ test('Replit and forwarded HTTPS requests produce secure cookies', () => {
 
   const replit = resolveAuthConfig({ ...credentials, REPLIT_DEPLOYMENT: '1' });
   assert.equal(isSecureRequest({ headers: {}, socket: {} }, replit), true);
+});
+
+test('security headers preserve an origin-only referrer for policy-compliant map tiles', () => {
+  const headers = new Map();
+  const response = {
+    setHeader(name, value) {
+      headers.set(name, value);
+    },
+    end() {},
+  };
+  const gate = createAuthGate({ env: {}, logger: { warn() {}, error() {}, info() {} } });
+
+  gate({ url: '/healthz', method: 'GET', headers: {}, socket: {} }, response, () => {});
+
+  assert.equal(headers.get('Referrer-Policy'), 'strict-origin-when-cross-origin');
+  assert.equal(headers.get('X-Frame-Options'), 'DENY');
 });

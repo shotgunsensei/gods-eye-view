@@ -7384,6 +7384,12 @@ export default defineConfig(({ mode }) => {
         ? true
         : ['localhost', '127.0.0.1', '.local'],
     },
+    // QA captures can contain complete browser-profile HTML trees. Restrict
+    // dependency discovery to the real application entry so Vite does not try
+    // to bundle Edge's internal wallet/shopping pages during local startup.
+    optimizeDeps: {
+      entries: ['index.html'],
+    },
     // Expose selected API keys to the browser via import.meta.env.*
     define: {
       'import.meta.env.GOOGLE_MAPS_API_KEY': JSON.stringify(env.GOOGLE_MAPS_API_KEY),

@@ -203,7 +203,10 @@ function expiredSessionCookie(req, config) {
 function applyBaseHeaders(res) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('Referrer-Policy', 'same-origin');
+  // OSM's public web-tile policy requires a valid Referer so traffic can be
+  // attributed to this site. Send only the origin on cross-site requests;
+  // route, query, hash, and private application state remain undisclosed.
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
 }
 
